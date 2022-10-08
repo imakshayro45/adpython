@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+  {% if category %}
+    {{category.description|truncatewords:155}}
+  {% else %}
+    welcome to SportKart , Meet your gears
+  {% endif %}
+{% endblock %}
+
+{% block title %}
+  {% if category %}
+    {{category.name}}- SportKart
+  {% else %}
+    Check THE  OFFER ZONE - SportKart
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% if category %}
+    <div>
+      <div class="row my_row_class">
+          <div class="mx-auto">
+            <p><a href="{% url 'shopkart:allProdCat' %}">OUR COLLECTIONS</a></p>
+          </div>
+      </div>
+    </div>
+  <div class="mx_auto">
+  <br>
+  <div>
+    <h1 class="text-center my_title2">{{category.name}}</h1>
+    <p class="text-justify text-center">{{category.description}}</p>
+    <img src="{{category.image.url}}" alt="{{category.name}}" width="100%" height="300px">
+  </div>
+    <br>
+    <div>
+
+
+      <p>{{category.price}}</p>
+  </div>
+    {% else %}
+      <div class="container">
+        <img class="my_image my_image_padding" src="{% static 'img/Untitled design.png' %}" alt="OUR PRODUCTS">
+      </div>
+  <br>
+  <div class="container">
+    <h1 class="text-center my_title">OUR PRODUCT COLLECTIONS</h1>
+    <p class="text-justify">SPORTKART is your one stop shop for buying sports goods online in India. We are B2C now, open for all to buy sports products at an extremely affordable .At SPORTKART, we are accomplished sportsmen and women, and we love sport. We dream of sharing this enthusiasm with the largest possible number of people. Everything we do centres around the end user. Their satisfaction is our reason for being.Our company mission is:"to sustainably make the pleasure and benefits of sport accessible to the many". SPORT FOR THE MANY !</p>
+  </div>
+    {% endif %}
+  </div>
+</div>
+  <div>
+    <div class="container">
+      <div class="row mx-auto">
+      {% for product in products.object_list %}
+      <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+        <div class=" text-center" style="min-width:18rem;">
+          <a href="{{product.get_url}}"><img class="card-img-top" src="{{product.image.url}}" alt="{{product.name}}" width="180px" height="200px"></a>
+        </div>
+        <div class="card-body">
+          <h4><b>{{product.name}}</b></h4>
+        <p>₹ {{product.price}}</p>
+        </div>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+    <div class="mx-auto">
+      {% if products.paginator.num_pages > 1 %}
+      <hr>
+      <div class="text-center">
+        {% for pg in products.paginator.page_range %}
+          <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+      <br>
+  </div>
+    </div>
+{% endblock %}
+
+
+
